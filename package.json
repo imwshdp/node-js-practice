@@ -1,0 +1,21 @@
+{
+	"name": "js-practice",
+	"version": "1.0.0",
+	"description": "",
+	"main": ".prettierrc.js",
+	"scripts": {
+		"start:env": "cross-env PORT=5000 NODE_ENV=development node ./scripts/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"devDependencies": {
+		"@types/node": "^22.5.0",
+		"prettier": "^3.3.3"
+	},
+	"keywords": [],
+	"author": "imwshdp",
+	"license": "ISC",
+	"dependencies": {
+		"cross-env": "^7.0.3",
+		"dotenv": "^16.4.5"
+	}
+}
