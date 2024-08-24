@@ -4,8 +4,9 @@
 	"description": "",
 	"main": ".prettierrc.js",
 	"scripts": {
-		"start:env": "cross-env PORT=5000 NODE_ENV=development node ./scripts/index.js",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start:env": "cross-env PORT=5000 NODE_ENV=development node ./scripts/process.js",
+		"dev": "nodemon ./scripts/http.js",
+		"server": "nodemon ./server/index.js"
 	},
 	"devDependencies": {
 		"@types/node": "^22.5.0",
@@ -19,3 +20,4 @@
 		"dotenv": "^16.4.5"
 	}
 }
+
