@@ -5,10 +5,15 @@ module.exports = class Application {
 	constructor() {
 		this.server = this._createServer();
 		this.emitter = new EventEmitter();
+		this.middlewares = [];
 	}
 
 	listen(port, callback) {
 		this.server.listen(port, callback);
+	}
+
+	use(middleware) {
+		this.middlewares.push(middleware);
 	}
 
 	addRouter(router) {
@@ -26,11 +31,24 @@ module.exports = class Application {
 
 	_createServer() {
 		return http.createServer((request, response) => {
-			const emitted = this.emitter.emit(this._getRouteMask(request.url, request.method), request, response);
+			let body = '';
+			request.on('data', (chunk) => {
+				body += chunk;
+			});
 
-			if (!emitted) {
-				response.end();
-			}
+			request.on('end', () => {
+				if (body) {
+					request.body = JSON.parse(body);
+				}
+
+				this.middlewares.forEach((middleware) => middleware(request, response));
+
+				const emitted = this.emitter.emit(this._getRouteMask(request.pathname, request.method), request, response);
+
+				if (!emitted) {
+					response.end();
+				}
+			});
 		});
 	}
 
