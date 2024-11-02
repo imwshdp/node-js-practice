@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-fs.readFile(path.resolve(__dirname, '../data/content.txt'), (error, data) => {
+fs.readFile(path.resolve(__dirname, '../tmp/content.txt'), (error, data) => {
 	if (error) {
 		throw error;
 	}
@@ -9,7 +9,7 @@ fs.readFile(path.resolve(__dirname, '../data/content.txt'), (error, data) => {
 });
 
 // read readStream
-const readStream = fs.createReadStream(path.resolve(__dirname, '../data/content.txt'));
+const readStream = fs.createReadStream(path.resolve(__dirname, '../tmp/content.txt'));
 
 readStream.on('data', (chunk) => {
 	console.log('\nCHUNK', chunk);
@@ -28,7 +28,7 @@ readStream.on('error', (error) => {
 });
 
 // write readStream
-const writeStream = fs.createWriteStream(path.resolve(__dirname, '../data/content_write.txt'));
+const writeStream = fs.createWriteStream(path.resolve(__dirname, '../tmp/content_write.txt'));
 
 for (let index = 0; index < 20; index++) {
 	writeStream.write(`${index + 1}\n`);
