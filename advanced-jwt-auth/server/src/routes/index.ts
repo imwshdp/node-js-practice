@@ -1,9 +1,15 @@
 import { Router } from 'express';
+import { body } from 'express-validator';
 import userController from '../controllers/user.controller';
 
 const router = Router();
 
-router.post('/registration', userController.registration);
+router.post(
+	'/registration',
+	body('email').isEmail(),
+	body('password').isLength({ min: 3, max: 32 }).isString(),
+	userController.registration
+);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 

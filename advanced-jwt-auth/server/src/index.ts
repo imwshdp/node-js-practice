@@ -4,9 +4,10 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-import router from './routes';
-
 dotenv.config();
+
+import router from './routes';
+import errorMiddleware from './middlewares/errorMiddleware';
 
 const PORT = process.env.PORT ?? 5000;
 const DB_URL = process.env.MONGODB_CONNECTION_URL;
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use('/api', router);
+app.use(errorMiddleware);
 
 const start = async () => {
 	try {
