@@ -29,15 +29,15 @@ class UserController {
 			}
 
 			const { email, password } = request.body;
-			const user = await userService.registration({ email, password });
+			const tokensWithUser = await userService.registration({ email, password });
 
-			response.cookie('refreshToken', user.refreshToken, {
+			response.cookie('refreshToken', tokensWithUser.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
 				httpOnly: true
 				// secure: true,
 			});
 
-			response.status(200).json({ user });
+			response.status(200).json(tokensWithUser);
 		} catch (error) {
 			next(error);
 		}
@@ -58,15 +58,14 @@ class UserController {
 		try {
 			const { email, password } = request.body;
 
-			const user = await userService.login({ email, password });
+			const tokensWithUser = await userService.login({ email, password });
 
-			response.cookie('refreshToken', user.refreshToken, {
+			response.cookie('refreshToken', tokensWithUser.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
 				httpOnly: true
-				// secure: true,
 			});
 
-			response.status(200).json({ user });
+			response.status(200).json(tokensWithUser);
 		} catch (error) {
 			next(error);
 		}
@@ -102,14 +101,15 @@ class UserController {
 	async refresh(request: Request, response: Response, next: NextFunction): Promise<void> {
 		try {
 			const refreshToken = request.cookies.refreshToken;
-			const userData = await userService.refresh({ refreshToken });
-			const tokens = tokenService.generateTokens({ payload: userData });
-			response.cookie('refreshToken', tokens.refreshToken, {
+
+			const tokensWithUser = await userService.refresh({ refreshToken });
+
+			response.cookie('refreshToken', tokensWithUser.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
 				httpOnly: true
-				// secure: true,
 			});
-			response.status(200).json({ accessToken: tokens.accessToken });
+
+			response.status(200).json(tokensWithUser);
 		} catch (error) {
 			next(error);
 		}

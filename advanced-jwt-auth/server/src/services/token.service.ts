@@ -23,7 +23,7 @@ class TokenService {
 		accessToken: string;
 		refreshToken: string;
 	} {
-		const accessToken = jwt.sign(payload, this._accessSecret, { expiresIn: '30m' });
+		const accessToken = jwt.sign(payload, this._accessSecret, { expiresIn: '5s' });
 		const refreshToken = jwt.sign(payload, this._refreshSecret, { expiresIn: '14d' });
 
 		return { accessToken, refreshToken };
@@ -72,8 +72,7 @@ class TokenService {
 	}
 
 	async findToken({ refreshToken }: { refreshToken: string }): Promise<IToken | null> {
-		const token = await Token.findOne({ refreshToken });
-		return token;
+		return await Token.findOne({ refreshToken });
 	}
 }
 

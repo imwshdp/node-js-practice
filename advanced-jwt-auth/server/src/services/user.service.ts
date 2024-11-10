@@ -104,14 +104,14 @@ class UserService {
 			throw ApiError.UnauthorizedError();
 		}
 
-		const token = await tokenService.findToken({ refreshToken });
 		const userData = tokenService.validateRefreshToken({ refreshToken });
+		const token = await tokenService.findToken({ refreshToken });
 
-		if (!token || !userData) {
+		if (!userData || !token) {
 			throw ApiError.UnauthorizedError();
 		}
 
-		const user = await User.findOne({ _id: userData.id });
+		const user = await User.findById(userData.id);
 		if (!user) {
 			throw new Error("User doesn't exist");
 		}
