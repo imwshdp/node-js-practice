@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import userService from '../services/user.service';
-import ApiError from '../exceptions/apiError';
+import ApiError from '../exceptions/api.error';
 import tokenService from '../services/token.service';
 
 class UserController {
@@ -75,7 +75,8 @@ class UserController {
 	async logout(request: Request, response: Response, next: NextFunction): Promise<void> {
 		try {
 			const refreshToken = request.cookies.refreshToken;
-			const token = await tokenService.removeToken({ refreshToken });
+			await tokenService.removeToken({ refreshToken });
+
 			response.clearCookie('refreshToken');
 			response.sendStatus(200);
 		} catch (error) {
@@ -102,7 +103,7 @@ class UserController {
 		try {
 			const refreshToken = request.cookies.refreshToken;
 			const userData = await userService.refresh({ refreshToken });
-			const tokens = await tokenService.generateTokens({ payload: userData });
+			const tokens = tokenService.generateTokens({ payload: userData });
 			response.cookie('refreshToken', tokens.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
 				httpOnly: true

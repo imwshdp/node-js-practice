@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { IToken, Token } from '../models/token.model';
-import ApiError from '../exceptions/apiError';
-import { IUser } from '../types/models/user';
+import ApiError from '../exceptions/api.error';
+import { IUser } from '../types/user.types';
 
 class TokenService {
 	private _accessSecret: string;
@@ -23,8 +23,8 @@ class TokenService {
 		accessToken: string;
 		refreshToken: string;
 	} {
-		const accessToken = jwt.sign(payload, this._accessSecret, { expiresIn: '1h' });
-		const refreshToken = jwt.sign(payload, this._refreshSecret, { expiresIn: '7d' });
+		const accessToken = jwt.sign(payload, this._accessSecret, { expiresIn: '30m' });
+		const refreshToken = jwt.sign(payload, this._refreshSecret, { expiresIn: '14d' });
 
 		return { accessToken, refreshToken };
 	}

@@ -1,4 +1,4 @@
-import { IUser } from '../types/models/user';
+import { IUser } from '../types/user.types';
 
 class UserDto {
 	email: string;

@@ -5,7 +5,7 @@ import { User } from '../models/user.model';
 import mailService from './mail.service';
 import tokenService from './token.service';
 import UserDto from '../dtos/user.dto';
-import ApiError from '../exceptions/apiError';
+import ApiError from '../exceptions/api.error';
 import { DeleteResult } from 'mongoose';
 
 class UserService {
