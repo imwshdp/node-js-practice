@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
+import { ROUTES } from '../../model/routes';
 import { CommonMessage } from '../../model/types';
 import Form from '../Form';
 import MessagesBox from '../MessagesBox';
-import { ROUTES } from '../../model/routes';
 
 const LongPolling: FC = () => {
 	const [messages, setMessages] = useState<CommonMessage[]>([]);
@@ -27,8 +27,6 @@ const LongPolling: FC = () => {
 	useEffect(() => {
 		subscribeToMessages();
 	}, []);
-
-	console.log('messages :>> ', messages);
 
 	return (
 		<>

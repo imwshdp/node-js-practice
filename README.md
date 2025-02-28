@@ -48,3 +48,5 @@ Below is a brief overview of the projects included in this repository:
 - **Basics** A simple scripts for Node.js with using some libs (as path, os, streams etc) and simple http server
 
 - **JWT Auth** A simple example of user authentication using JSON Web Tokens (JWT) with roles.
+
+- **Real-Time** Project with examples of different real-time communication methods between server and client (WebSockets, Long Polling, Event Sourcing)

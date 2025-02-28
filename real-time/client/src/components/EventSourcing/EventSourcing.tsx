@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
-import { CommonMessage } from '../../model/types';
 import { ROUTES } from '../../model/routes';
+import { CommonMessage } from '../../model/types';
 import Form from '../Form';
 import MessagesBox from '../MessagesBox';
 
@@ -14,11 +14,18 @@ const EventSourcing: FC = () => {
 	};
 
 	useEffect(() => {
-		const eventSource = new EventSource(ROUTES.eventSourcing.get);
+		let eventSource = new EventSource(ROUTES.eventSourcing.get);
 
-		eventSource.onmessage = function (event) {
+		eventSource.onmessage = (event) => {
 			const newMessage = JSON.parse(event.data);
 			setMessages((prevMessages) => [newMessage, ...prevMessages]);
+		};
+
+		eventSource.onerror = () => {
+			eventSource.close();
+			setTimeout(() => {
+				eventSource = new EventSource(ROUTES.eventSourcing.get);
+			}, 1000);
 		};
 
 		return () => {

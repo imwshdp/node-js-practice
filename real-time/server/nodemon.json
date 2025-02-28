@@ -2,5 +2,10 @@
 	"watch": ["src"],
 	"ext": "ts",
 	"ignore": ["dist"],
-	"exec": "ts-node ./src/webSockets.ts"
+	"env": {
+		"APP_TO_RUN": "webSockets"
+	},
+	"execMap": {
+		"ts": "ts-node"
+	}
 }
